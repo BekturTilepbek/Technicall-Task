@@ -1,0 +1,29 @@
+services:
+  db:
+    image: "postgres:17.0"
+    ports:
+      - "5678:5432"
+    env_file:
+      - ./source/.env
+    restart: always
+    container_name: tech_task_db
+    volumes:
+      - ./.volumes/db:/var/lib/postgresql/data
+
+  web:
+    build:
+      context: .
+      dockerfile: source/Dockerfile
+    env_file:
+      - ./source/.env
+    ports:
+      - "8000:8000"
+    restart: always
+    container_name: tech_task
+    volumes:
+      - ./source/:/code
+    depends_on:
+      - db
+    command: >
+      sh -c "sleep 10 &&
+             gunicorn --bind 0.0.0.0:8000 tech_task.wsgi:application"
