@@ -1,0 +1,1 @@
+from api_v1.serializers.custom_user import CustomUserSerializer

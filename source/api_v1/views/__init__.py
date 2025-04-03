@@ -1,0 +1,1 @@
+from api_v1.views.custom_user import RegisterAPIView
